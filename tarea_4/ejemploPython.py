@@ -6,15 +6,13 @@ c = 0
 while True:
     B = []  
     B.append(A[c][2]^A[c][3])
-    B.append(A[c][0])
-    B.append(A[c][1])
-    B.append(A[c][2])
+    B.extend(A[c][0:(len(A[c])-1)])
     
     A.append(B)
-
+    
     c+=1
 
-    if c == (2**len(A[0])):
+    if c == ((2**len(A[0]))-1):
         break
 
 print(A)

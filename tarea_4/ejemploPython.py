@@ -1,20 +1,33 @@
-A = [[1,0,1,0]]
-B = []
+def lfsr_custom(seed, r, q, l, N=100):
+    A = seed
 
-c = 0
-stop = ((2**len(A[0]))-1)
+    for i in range(1,len(list(range(1,(N*l)+1)))+1):
+        if i>q:
+            pr=i-(r+1)
+            pq=i-(q+1)
+            A.append(A[pr] ^ A[pq])  
 
-while True:
-    B = []  
-    B.append(A[c][2]^A[c][3])
-    B.extend(A[c][0:(len(A[c])-1)])
-    
-    A.append(B)
-    
-    c+=1
+    return A
 
-    if c == stop:
-        break
+def to_decimal(result, l, N=100):
+    B = []
+    jump = l
+    const = 2**l
 
-print(A)
-    
+    for i in range(0, len(result), l):
+        dec = ''.join(map(str, result[i:jump]))
+        B.append(int(dec,2)/const)
+        
+        jump = jump + l
+
+    return B
+
+q = 7
+r = 3
+l = 5
+
+seed = [1 for i in range(q)]
+
+result=lfsr_custom(seed, r, q, l, 100)
+numeros = to_decimal(result, 100)
+print(numeros)
